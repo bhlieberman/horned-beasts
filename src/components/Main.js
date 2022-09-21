@@ -1,19 +1,27 @@
 import React from "react";
 import HornedBeast from "./HornedBeast.js";
-import animals from './animals.json';
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 
 class Main extends React.Component {
   render() {
     return (
       <>
-      {animals.animals.map((animal, index) => {
-        return <HornedBeast
-            title={animal.title}
-            imageUrl={animal.image_url}
-            description={animal.description}
-            key={index}
-          />
-      })}
+        <Row>
+          {this.props.data.map((animal, index) => {
+            return (
+              <Col className="d-flex align-items-stretch">
+                <HornedBeast
+                  title={animal.title}
+                  imageUrl={animal.image_url}
+                  description={animal.description}
+                  key={index}
+                  select={this.props.setShowModal}
+                />
+              </Col>
+            );
+          })}
+        </Row>
       </>
     );
   }

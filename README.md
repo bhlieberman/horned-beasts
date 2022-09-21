@@ -1,3 +1,5 @@
+# Lab 02
+
 # Feature 1 -Display Images:
 
 ## Time to complete: 30mins (Done)
@@ -18,3 +20,11 @@
 
 ## Time started: 3:00pm MST 09/20/22
 ## Time completed: 5:10pm MST 09/20/22
+
+# Lab 03
+
+# Feature 1 - Display a modal
+
+## Time to complete: 1hr
+
+#
