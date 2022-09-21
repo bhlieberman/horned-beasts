@@ -13,23 +13,36 @@ class App extends React.Component {
     super(props);
     this.state = {
       show: false,
+      selectedBeast: {},
     };
+    this.showModal = this.showModal.bind(this);
+    this.showModalFalse = this.showModalFalse.bind(this);
   }
   render() {
     return (
       <div className="App">
         <Header />
-        <Main
-          data={animals.animals}
-          setShowModal={this.showModal}
+        <Main data={animals.animals} setShowModal={this.showModal} />
+        <SelectedBeast
+          show={this.state.show}
+          selectedBeast={this.state.selectedBeast}
+          handleClose={this.showModalFalse}
         />
-        <SelectedBeast show={this.state.show} title="a horned beast" description="about it" />
         <Footer />
       </div>
     );
   }
-  showModal() {
-    this.setState((prevState) => ({ show: !prevState.show }));
+  showModalFalse() {
+    this.setState({ show: false, selectedBeast: {} });
+  }
+  showModal(key) {
+    this.setState({
+      show: true,
+      selectedBeast: animals.animals.reduce((acc, beast) => {
+        if (beast._id === key) acc = { ...beast };
+        return acc;
+      }, {}),
+    });
   }
 }
 

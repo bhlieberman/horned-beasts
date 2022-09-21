@@ -16,7 +16,8 @@ class Main extends React.Component {
                   imageUrl={animal.image_url}
                   description={animal.description}
                   key={index}
-                  select={this.props.setShowModal}
+                  id={animal._id}
+                  setShowModal={this.props.setShowModal}
                 />
               </Col>
             );

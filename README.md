@@ -27,4 +27,5 @@
 
 ## Time to complete: 1hr
 
-#
+## Time started: 1:45pm MST 09/21/22
+## Time completed: 2:45pm MST 09/21/22
