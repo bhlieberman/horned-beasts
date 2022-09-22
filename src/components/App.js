@@ -5,7 +5,6 @@ import Footer from "./Footer.js";
 import SelectedBeast from "./SelectedBeast.js";
 import { SearchForm, Dropdown } from "./Forms.js";
 import React from "react";
-import Form from "react-bootstrap/Form";
 import FormGroup from "react-bootstrap/FormGroup";
 
 import animals from "./animals.json";
@@ -17,7 +16,9 @@ class App extends React.Component {
     this.state = {
       show: false,
       selectedBeast: {},
+      horns: 0,
       filter: "",
+      beasts: animals,
     };
   }
   render() {
@@ -26,11 +27,12 @@ class App extends React.Component {
         <Header className="d-block mb-4" />
         <FormGroup className="d-inline-block">
           <SearchForm fuzzySearch={this.fuzzySearch} />
-          <Dropdown className="p-2"/>
+          <Dropdown className="p-2" filterByHorns={this.filterByHorns} />
         </FormGroup>
         <Main
-          data={animals}
+          data={this.state.beasts}
           fuzzy={this.state.filter}
+          horns={this.state.horns}
           setShowModal={this.showModal}
         />
         <SelectedBeast
@@ -42,6 +44,9 @@ class App extends React.Component {
       </div>
     );
   }
+  filterByHorns = (horns) => {
+    this.setState({ horns: horns });
+  };
   fuzzySearch = (chars) =>
     this.setState({
       filter: new RegExp(
@@ -52,7 +57,6 @@ class App extends React.Component {
         "i"
       ),
     });
-
   showModal = (key) => {
     this.setState((prevState) => ({
       show: !prevState.show,
