@@ -15,19 +15,13 @@ class App extends React.Component {
     this.state = {
       show: false,
       selectedBeast: {},
-      filter: '',
+      filter: "",
     };
     this.showModal = this.showModal.bind(this);
     this.showModalFalse = this.showModalFalse.bind(this);
   }
   fuzzySearch(chars) {
-    const regex = new RegExp(
-      chars
-        // .split("")
-        // .map((c) => `${c}+`)
-        // .join("")
-      ,"i"
-    );
+    let regex = new RegExp(chars, "i");
     this.setState({ filter: regex });
   }
   render() {
@@ -39,7 +33,7 @@ class App extends React.Component {
             e.preventDefault();
             this.fuzzySearch(e.target.value);
           }}
-          onSubmit={(e) => this.setState({filter: ''})}
+          onSubmit={() => this.setState({ filter: "" })}
         >
           <Form.Control type="text" placeholder="Search" />
           <Form.Text className="text-muted"></Form.Text>

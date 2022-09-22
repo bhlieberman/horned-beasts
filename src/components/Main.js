@@ -5,31 +5,40 @@ import Row from "react-bootstrap/Row";
 
 class Main extends React.Component {
   render() {
-    console.log(this.props.fuzzy);
     return (
       <>
         <Row>
-          {this.props.data.filter((animal, index) => {
-            return this.props.fuzzy !== '' ? this.props.fuzzy.test(animal.title) : animal;
-          }).map((animal, index) => {
-            return (<Col className="d-flex align-items-stretch">
-                <HornedBeast
-                  title={animal.title}
-                  imageUrl={animal.image_url}
-                  description={animal.description}
-                  key={index}
-                  id={animal._id}
-                  setShowModal={this.props.setShowModal}
-                />
-              </Col>)
-          })}
+          {this.props.data.reduce((acc, beast, index) => {
+            if (!this.props.fuzzy) {
+              acc.push(<Col className="d-flex align-items-stretch">
+                  <HornedBeast
+                    title={beast.title}
+                    imageUrl={beast.image_url}
+                    description={beast.description}
+                    key={index}
+                    id={beast._id}
+                    setShowModal={this.props.setShowModal}
+                  />
+                </Col>);
+            } else if (this.props.fuzzy && this.props.fuzzy.test(beast.title)) {
+              acc.push(<Col className="d-flex align-items-stretch">
+                  <HornedBeast
+                    title={beast.title}
+                    imageUrl={beast.image_url}
+                    description={beast.description}
+                    key={index}
+                    id={beast._id}
+                    setShowModal={this.props.setShowModal}
+                  />
+                </Col>)
+            }
+            return acc;
+          }, [])}
         </Row>
       </>
     );
   }
-  componentDidUpdate(prevProps) {
-    console.log(this.props.fuzzy !== prevProps.fuzzy);
-  }
 }
 
 export default Main;
+
