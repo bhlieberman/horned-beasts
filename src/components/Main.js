@@ -9,9 +9,23 @@ class Main extends React.Component {
       <>
         <Row>
           {this.props.data.reduce((acc, beast) => {
-            if (!this.props.fuzzy) {
+            if (!this.props.fuzzy && !this.props.horns) {
               acc.push(this.renderBeast(beast));
-            } else if (this.props.fuzzy.test(beast.title)) {
+            } else if (!this.props.fuzzy && this.props.horns === beast.horns) {
+              acc.push(this.renderBeast(beast));
+            }
+            if (
+              this.props.fuzzy &&
+              this.props.fuzzy.test(beast.title) &&
+              this.props.horns === beast.horns
+            ) {
+              acc.push(this.renderBeast(beast));
+            }
+            if (
+              this.props.fuzzy &&
+              this.props.fuzzy.test(beast.title) &&
+              !this.props.horns
+            ) {
               acc.push(this.renderBeast(beast));
             }
             return acc;
