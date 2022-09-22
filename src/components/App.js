@@ -15,16 +15,20 @@ class App extends React.Component {
     this.state = {
       show: false,
       selectedBeast: {},
-      filter: null,
+      filter: '',
     };
     this.showModal = this.showModal.bind(this);
     this.showModalFalse = this.showModalFalse.bind(this);
-    this.fuzzySearch = this.fuzzySearch.bind(this);
   }
-  fuzzySearch(input, chars) {
-    const regex = new RegExp(chars, "i");
+  fuzzySearch(chars) {
+    const regex = new RegExp(
+      chars
+        // .split("")
+        // .map((c) => `${c}+`)
+        // .join("")
+      ,"i"
+    );
     this.setState({ filter: regex });
-    return regex.exec(input);
   }
   render() {
     return (
@@ -33,15 +37,16 @@ class App extends React.Component {
         <Form
           onChange={(e) => {
             e.preventDefault();
-            console.log(this.fuzzySearch(e.target.value, "uni"));
+            this.fuzzySearch(e.target.value);
           }}
+          onSubmit={(e) => this.setState({filter: ''})}
         >
           <Form.Control type="text" placeholder="Search" />
           <Form.Text className="text-muted"></Form.Text>
         </Form>
         <Main
           data={animals.animals}
-          fuzzy={this.fuzzySearch}
+          fuzzy={this.state.filter}
           setShowModal={this.showModal}
         />
         <SelectedBeast

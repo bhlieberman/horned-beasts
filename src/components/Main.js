@@ -5,12 +5,14 @@ import Row from "react-bootstrap/Row";
 
 class Main extends React.Component {
   render() {
+    console.log(this.props.fuzzy);
     return (
       <>
         <Row>
-          {this.props.data.map((animal, index) => {
-            return (
-              <Col className="d-flex align-items-stretch">
+          {this.props.data.filter((animal, index) => {
+            return this.props.fuzzy !== '' ? this.props.fuzzy.test(animal.title) : animal;
+          }).map((animal, index) => {
+            return (<Col className="d-flex align-items-stretch">
                 <HornedBeast
                   title={animal.title}
                   imageUrl={animal.image_url}
@@ -19,12 +21,14 @@ class Main extends React.Component {
                   id={animal._id}
                   setShowModal={this.props.setShowModal}
                 />
-              </Col>
-            );
+              </Col>)
           })}
         </Row>
       </>
     );
+  }
+  componentDidUpdate(prevProps) {
+    console.log(this.props.fuzzy !== prevProps.fuzzy);
   }
 }
 
