@@ -1,0 +1,10 @@
+.popup-img {
+    max-width: 300px;
+    float: left;
+    padding: 10px;
+}
+
+.img-txt:hover {
+    color: blue;
+    opacity: 0.5;
+}
