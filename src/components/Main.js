@@ -8,29 +8,11 @@ class Main extends React.Component {
     return (
       <>
         <Row>
-          {this.props.data.reduce((acc, beast, index) => {
+          {this.props.data.reduce((acc, beast) => {
             if (!this.props.fuzzy) {
-              acc.push(<Col className="d-flex align-items-stretch">
-                  <HornedBeast
-                    title={beast.title}
-                    imageUrl={beast.image_url}
-                    description={beast.description}
-                    key={index}
-                    id={beast._id}
-                    setShowModal={this.props.setShowModal}
-                  />
-                </Col>);
-            } else if (this.props.fuzzy && this.props.fuzzy.test(beast.title)) {
-              acc.push(<Col className="d-flex align-items-stretch">
-                  <HornedBeast
-                    title={beast.title}
-                    imageUrl={beast.image_url}
-                    description={beast.description}
-                    key={index}
-                    id={beast._id}
-                    setShowModal={this.props.setShowModal}
-                  />
-                </Col>)
+              acc.push(this.renderBeast(beast));
+            } else if (this.props.fuzzy.test(beast.title)) {
+              acc.push(this.renderBeast(beast));
             }
             return acc;
           }, [])}
@@ -38,7 +20,20 @@ class Main extends React.Component {
       </>
     );
   }
+  renderBeast({ title, image_url, description, _id }) {
+    return (
+      <Col className="d-flex align-items-stretch">
+        <HornedBeast
+          title={title}
+          imageUrl={image_url}
+          description={description}
+          key={_id}
+          id={_id}
+          setShowModal={this.props.setShowModal}
+        />
+      </Col>
+    );
+  }
 }
 
 export default Main;
-

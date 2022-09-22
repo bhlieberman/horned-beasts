@@ -3,10 +3,12 @@ import Main from "./Main.js";
 import Header from "./Header.js";
 import Footer from "./Footer.js";
 import SelectedBeast from "./SelectedBeast.js";
-import animals from "./animals.json";
+import { SearchForm, Dropdown } from "./Forms.js";
 import React from "react";
 import Form from "react-bootstrap/Form";
+import FormGroup from "react-bootstrap/FormGroup";
 
+import animals from "./animals.json";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 class App extends React.Component {
@@ -17,53 +19,50 @@ class App extends React.Component {
       selectedBeast: {},
       filter: "",
     };
-    this.showModal = this.showModal.bind(this);
-    this.showModalFalse = this.showModalFalse.bind(this);
-  }
-  fuzzySearch(chars) {
-    let regex = new RegExp(chars, "i");
-    this.setState({ filter: regex });
   }
   render() {
     return (
       <div className="App">
         <Header className="d-block mb-4" />
-        <Form
-          onChange={(e) => {
-            e.preventDefault();
-            this.fuzzySearch(e.target.value);
-          }}
-          onSubmit={() => this.setState({ filter: "" })}
-        >
-          <Form.Control type="text" placeholder="Search" />
-          <Form.Text className="text-muted"></Form.Text>
-        </Form>
+        <FormGroup className="d-inline-block">
+          <SearchForm fuzzySearch={this.fuzzySearch} />
+          <Dropdown className="p-2"/>
+        </FormGroup>
         <Main
-          data={animals.animals}
+          data={animals}
           fuzzy={this.state.filter}
           setShowModal={this.showModal}
         />
         <SelectedBeast
           show={this.state.show}
           selectedBeast={this.state.selectedBeast}
-          handleClose={this.showModalFalse}
+          handleClose={this.showModal}
         />
         <Footer />
       </div>
     );
   }
-  showModalFalse() {
-    this.setState({ show: false, selectedBeast: {} });
-  }
-  showModal(key) {
+  fuzzySearch = (chars) =>
     this.setState({
-      show: true,
-      selectedBeast: animals.animals.reduce((acc, beast) => {
-        if (beast._id === key) acc = { ...beast };
+      filter: new RegExp(
+        chars
+          .split("")
+          .map((c) => `${c}+`)
+          .join(""),
+        "i"
+      ),
+    });
+
+  showModal = (key) => {
+    this.setState((prevState) => ({
+      show: !prevState.show,
+      selectedBeast: animals.reduce((acc, beast) => {
+        if (this.state.show) return acc;
+        else if (beast._id === key) acc = { ...beast };
         return acc;
       }, {}),
-    });
-  }
+    }));
+  };
 }
 
 export default App;
